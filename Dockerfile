@@ -75,6 +75,8 @@ RUN a2enmod headers proxy proxy_http rewrite ssl
 # Move SOGo's data directory to /srv
 RUN usermod --home /srv/lib/sogo sogo
 
+RUN ln -s /usr/lib/GNUstep/SOGo /usr/local/lib/GNUstep/SOGo
+
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libssl.so
 ENV USEWATCHDOG=YES
 
