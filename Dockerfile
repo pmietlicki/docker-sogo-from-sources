@@ -1,23 +1,25 @@
 FROM phusion/baseimage:master
 
-ENV version=5.0.1
+ENV SOGO_VERSION=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-)
+
+ENV MAJ_VERSION=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6- | head -c 1)
 
 WORKDIR /tmp/build
 
 # download SOPE sources
-ADD https://github.com/inverse-inc/sope/archive/SOPE-${version}.tar.gz /tmp/src/sope/sope.tar.gz
+ADD https://github.com/inverse-inc/sope/archive/SOPE-${SOGO_VERSION}.tar.gz /tmp/src/sope/sope.tar.gz
 
 # download sogo sources
-ADD https://github.com/inverse-inc/sogo/archive/SOGo-${version}.tar.gz /tmp/src/SOGo/SOGo.tar.gz
+ADD https://github.com/inverse-inc/sogo/archive/SOGo-${SOGO_VERSION}.tar.gz /tmp/src/SOGo/SOGo.tar.gz
 
 # add sources for libwbxml for activesync
-RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian focal sogo-v5" > /etc/apt/sources.list.d/sogo.list
+RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian focal sogo-v${MAJ_VERSION}" > /etc/apt/sources.list.d/sogo.list
 
 # prepare & compile
 RUN echo "untar SOPE sources" \
-   && tar -xf /tmp/src/sope/sope.tar.gz && mkdir /tmp/SOPE && mv sope-SOPE-${version}/* /tmp/SOPE/. \
+   && tar -xf /tmp/src/sope/sope.tar.gz && mkdir /tmp/SOPE && mv sope-SOPE-${SOGO_VERSION}/* /tmp/SOPE/. \
    && echo "untar SOGO sources"  \
-   && tar -xf /tmp/src/SOGo/SOGo.tar.gz && mkdir /tmp/SOGo && mv sogo-SOGo-${version}/* /tmp/SOGo/. \ 
+   && tar -xf /tmp/src/SOGo/SOGo.tar.gz && mkdir /tmp/SOGo && mv sogo-SOGo-${SOGO_VERSION}/* /tmp/SOGo/. \ 
    && echo "install required packages" \
    && apt-get update --allow-unauthenticated \
    && apt-get install --allow-unauthenticated -qy --no-install-recommends \
