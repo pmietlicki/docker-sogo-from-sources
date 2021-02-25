@@ -11,7 +11,7 @@ ADD https://github.com/inverse-inc/sope/archive/SOPE-${version}.tar.gz /tmp/src/
 ADD https://github.com/inverse-inc/sogo/archive/SOGo-${version}.tar.gz /tmp/src/SOGo/SOGo.tar.gz
 
 # add sources for libwbxml for activesync
-echo "deb [trusted=yes] http://www.axis.cz/linux/debian focal sogo-v5" > /etc/apt/sources.list.d/sogo.list
+RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian focal sogo-v5" > /etc/apt/sources.list.d/sogo.list
 
 # prepare & compile
 RUN echo "untar SOPE sources" \
@@ -84,7 +84,11 @@ RUN a2enmod headers proxy proxy_http rewrite ssl
 # Move SOGo's data directory to /srv
 RUN usermod --home /srv/lib/sogo sogo
 
+# Add link for Apache config and cron
 RUN ln -s /usr/lib/GNUstep/SOGo /usr/local/lib/GNUstep/SOGo
+RUN ln -s /usr/sbin/sogo-tool /usr/local/sbin/sogo-tool 
+RUN ln -s /usr/sbin/sogo-ealarms-notify /usr/local/sbin/sogo-ealarms-notify 
+RUN ln -s /usr/sbin/sogo-slapd-sockd /usr/local/sbin/sogo-slapd-sockd 
 
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libssl.so
 ENV USEWATCHDOG=YES
