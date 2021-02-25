@@ -200,7 +200,7 @@ Then for the volumes, I used :
         SOGoSentFolderName = Sent;
         SOGoTrashFolderName = Trash;
         SOGoDraftsFolderName = Drafts;
-        SOGoIMAPServer = "imaps://imap-server.localdomain.local:143/?tls=YES";
+        SOGoIMAPServer = "imaps://imap-server.localdomain.local:143/?tls=YES&tlsVerifyMode=none";
         SOGoIMAPAclConformsToIMAPExt = YES;
         SOGoVacationEnabled = NO;
         SOGoForwardEnabled = NO;
@@ -248,3 +248,33 @@ Then for the volumes, I used :
     #   - will keep 31 days worth of backups by default
     #   - runs once a day by default, but can run more frequently
     #30 0 * * *     sogo   /usr/sbin/sogo-backup
+
+#### Config for an external dovecot imap proxy for exchange (owa), you can use official dovecot docker image
+    mail_uid = 1000
+    mail_gid = 1000
+    protocols = imap imaps
+    listen = *
+    mail_location = imapc:~/imapc
+    imapc_host = owa.localdomain.domain
+    imapc_port = 993
+    imapc_ssl = imaps
+    imapc_ssl_verify = no
+    passdb {
+      driver = imap
+      args = host=owa.localdomain.domain ssl=imaps port=993 ssl_ca_file=/certs/cert_chain.cer
+      default_fields = userdb_imapc_user=%u userdb_imapc_password=%w
+    }
+    userdb {
+      driver = prefetch
+    }
+    mail_home = /srv/mail/%u
+    auth_mechanisms = plain login
+    verbose_ssl = yes
+    ssl = yes
+    ssl_cert = <cert.pem
+    ssl_key = <key.pem
+    log_path = /var/log/dovecot.log
+    # If not set, use the value from log_path
+    info_log_path = /var/log/dovecot-info.log
+    # If not set, use the value from info_log_path
+    debug_log_path = /var/log/dovecot-debug.log
