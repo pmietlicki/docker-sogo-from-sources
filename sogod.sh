@@ -32,6 +32,7 @@ cp /etc/cron.d/sogo /srv/etc/cron.orig
 
 # Load crontab
 cp /srv/etc/cron /etc/cron.d/sogo
+printf "\n" >> /etc/cron.d/sogo
 
 # load env
 . /usr/share/GNUstep/Makefiles/GNUstep.sh
