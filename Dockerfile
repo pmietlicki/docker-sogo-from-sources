@@ -43,6 +43,7 @@ RUN echo "untar SOPE sources" \
       postgresql-server-dev-all \
       libmemcached-dev \
       libcurl4-openssl-dev \
+      libwbxml2-dev \
       tzdata \
    && echo "compiling sope & sogo" \
    && cd /tmp/SOPE  \
