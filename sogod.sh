@@ -6,6 +6,7 @@ chown -R sogo:sogo /var/run/sogo
 
 # Copy distribution config files to /srv as example
 mkdir -p /srv/etc
+mkdir -p /etc/sogo
 cp /etc/sogo/sogo.conf /srv/etc/sogo.conf.orig
 
 # Copy back administrator's configuration

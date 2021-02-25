@@ -19,11 +19,14 @@ RUN echo "untar SOPE sources" \
    && apt-get update  \
    && apt-get install -qy --no-install-recommends \
       gnustep-make \
-      gnustep-base-common \
+      gnustep-base-runtime \
       libgnustep-base-dev \
       make \
       gobjc \
       libz-dev \
+      zlib1g-dev \
+      libpq-dev \
+      libcurl4-openssl-dev \
       libsodium-dev \
       libxml2-dev \
       libssl-dev \
