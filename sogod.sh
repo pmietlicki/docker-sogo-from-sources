@@ -33,5 +33,8 @@ cp /etc/cron.d/sogo /srv/etc/cron.orig
 # Load crontab
 cp /srv/etc/cron /etc/cron.d/sogo
 
+# load env
+. /usr/share/GNUstep/Makefiles/GNUstep.sh
+
 # Run SOGo in foreground
 LD_LIBRARY_PATH=/usr/local/lib/sogo:/usr/local/lib:$LD_LIBRARY_PATH LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
