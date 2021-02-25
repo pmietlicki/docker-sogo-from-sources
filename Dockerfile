@@ -53,6 +53,10 @@ RUN echo "untar SOPE sources" \
    && ./configure --enable-debug --disable-strip  \
    && make  \
    && make install \
+   && echo "compiling activesync support" \
+   && cd /tmp/SOGo/ActiveSync \
+   && make \
+   && make install \
    && echo "register sogo library" \
    && echo "/usr/local/lib/sogo" > /etc/ld.so.conf.d/sogo.conf  \
    && ldconfig \
