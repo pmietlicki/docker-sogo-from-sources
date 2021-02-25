@@ -10,14 +10,17 @@ ADD https://github.com/inverse-inc/sope/archive/SOPE-${version}.tar.gz /tmp/src/
 # download sogo sources
 ADD https://github.com/inverse-inc/sogo/archive/SOGo-${version}.tar.gz /tmp/src/SOGo/SOGo.tar.gz
 
+# add sources for libwbxml for activesync
+echo "deb http://www.axis.cz/linux/debian focal sogo-v5" > /etc/apt/sources.list.d/sogo.list
+
 # prepare & compile
 RUN echo "untar SOPE sources" \
    && tar -xf /tmp/src/sope/sope.tar.gz && mkdir /tmp/SOPE && mv sope-SOPE-${version}/* /tmp/SOPE/. \
    && echo "untar SOGO sources"  \
    && tar -xf /tmp/src/SOGo/SOGo.tar.gz && mkdir /tmp/SOGo && mv sogo-SOGo-${version}/* /tmp/SOGo/. \ 
    && echo "install required packages" \
-   && apt-get update  \
-   && apt-get install -qy --no-install-recommends \
+   && apt-get update --allow-unauthenticated \
+   && apt-get install --allow-unauthenticated -qy --no-install-recommends \
       gnustep-make \
       gnustep-base-runtime \
       libgnustep-base-dev \
@@ -43,7 +46,10 @@ RUN echo "untar SOPE sources" \
       postgresql-server-dev-all \
       libmemcached-dev \
       libcurl4-openssl-dev \
+      libwbxml2-0 \
+      libwbxml2-0-dbg \
       libwbxml2-dev \
+      libwbxml2-utils \
       tzdata \
    && echo "compiling sope & sogo" \
    && cd /tmp/SOPE  \
