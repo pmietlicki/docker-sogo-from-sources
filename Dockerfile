@@ -1,8 +1,12 @@
 FROM phusion/baseimage:master
 
-ENV SOGO_VERSION=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-)
+RUN VERSION=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-)
 
-ENV MAJ_VERSION=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6- | head -c 1)
+ENV SOGO_VERSION=$VERSION
+
+RUN MAJ=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6- | head -c 1)
+
+ENV MAJ_VERSION=$MAJ
 
 WORKDIR /tmp/build
 
