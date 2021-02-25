@@ -87,10 +87,11 @@ RUN a2enmod headers proxy proxy_http rewrite ssl
 RUN usermod --home /srv/lib/sogo sogo
 
 # Add link for Apache config and cron
-RUN ln -s /usr/lib/GNUstep/SOGo /usr/local/lib/GNUstep/SOGo
-RUN ln -s /usr/sbin/sogo-tool /usr/local/sbin/sogo-tool 
-RUN ln -s /usr/sbin/sogo-ealarms-notify /usr/local/sbin/sogo-ealarms-notify 
-RUN ln -s /usr/sbin/sogo-slapd-sockd /usr/local/sbin/sogo-slapd-sockd 
+RUN rm -rf /usr/lib/GNUstep/SOGo
+RUN ln -s /usr/local/lib/GNUstep/SOGo /usr/lib/GNUstep/SOGo
+RUN ln -s /usr/local/sbin/sogo-tool /usr/sbin/sogo-tool
+RUN ln -s /usr/local/sbin/sogo-ealarms-notify /usr/sbin/sogo-ealarms-notify
+RUN ln -s /usr/local/sbin/sogo-slapd-sockd /usr/sbin/sogo-slapd-sockd 
 
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libssl.so
 ENV USEWATCHDOG=YES
