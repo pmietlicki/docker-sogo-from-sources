@@ -13,7 +13,7 @@ ADD https://github.com/inverse-inc/sope/archive/SOPE-${SOGO_VERSION}.tar.gz /tmp
 ADD https://github.com/inverse-inc/sogo/archive/SOGo-${SOGO_VERSION}.tar.gz /tmp/src/SOGo/SOGo.tar.gz
 
 # add sources for libwbxml for activesync
-RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian focal sogo-v${MAJ_VERSION}" > /etc/apt/sources.list.d/sogo.list
+RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian $(lsb_release -sc) sogo-v${MAJ_VERSION}" > /etc/apt/sources.list.d/sogo.list
 
 # prepare & compile
 RUN echo "untar SOPE sources" \
