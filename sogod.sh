@@ -7,9 +7,11 @@ chown -R sogo:sogo /var/run/sogo
 #Solve libssl bug for Mail View
 if [[ -z "${LD_PRELOAD}" ]]; then
 	LIBSSL_LOCATION=$(find / -type f -name "libssl.so.*" -print -quit);echo "LD_PRELOAD=$LIBSSL_LOCATION" >> /etc/default/sogo
+	echo "LD_LIBRARY_PATH=/usr/local/lib/sogo:/usr/local/lib:$LD_LIBRARY_PATH" >> /etc/default/sogo
 	export LD_PRELOAD=$LIBSSL_LOCATION
 else
 	echo "LD_PRELOAD=$LD_PRELOAD" >> /etc/default/sogo
+	echo "LD_LIBRARY_PATH=/usr/local/lib/sogo:/usr/local/lib:$LD_LIBRARY_PATH" >> /etc/default/sogo
 	export LD_PRELOAD=$LD_PRELOAD
 fi
 
@@ -32,4 +34,4 @@ cp /etc/cron.d/sogo /srv/etc/cron.orig
 cp /srv/etc/cron /etc/cron.d/sogo
 
 # Run SOGo in foreground
-LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
+LD_LIBRARY_PATH=/usr/local/lib/sogo:/usr/local/lib:$LD_LIBRARY_PATH LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
