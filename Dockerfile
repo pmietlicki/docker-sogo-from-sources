@@ -23,6 +23,8 @@ RUN echo "untar SOPE sources" \
       libgnustep-base-dev \
       make \
       gobjc \
+      libz-dev \
+      libsodium-dev \
       libxml2-dev \
       libssl-dev \
       libldap2-dev \
