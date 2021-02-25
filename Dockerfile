@@ -1,29 +1,31 @@
 FROM phusion/baseimage:master
 
-RUN export VERSION=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-)
+RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-) > /tmp/sogo_version
 
 ENV SOGO_VERSION=5.0.1
 
-RUN export MAJ=$(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6- | head -c 1)
+RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6- | head -c 1) > /tmp/sogo_maj_version
 
 ENV MAJ_VERSION=5
 
 WORKDIR /tmp/build
 
 # download SOPE sources
-ADD https://github.com/inverse-inc/sope/archive/SOPE-${SOGO_VERSION}.tar.gz /tmp/src/sope/sope.tar.gz
+RUN mkdir -p /tmp/src/sope
+RUN curl -LJO https://github.com/inverse-inc/sope/archive/SOPE-$(cat /tmp/sogo_version).tar.gz -o /tmp/src/sope/sope.tar.gz -s
 
 # download sogo sources
-ADD https://github.com/inverse-inc/sogo/archive/SOGo-${SOGO_VERSION}.tar.gz /tmp/src/SOGo/SOGo.tar.gz
+RUN mkdir -p /tmp/src/SOGo
+RUN curl -LJO https://github.com/inverse-inc/sogo/archive/SOGo-$(cat /tmp/sogo_version).tar.gz -o /tmp/src/SOGo/SOGo.tar.gz -sf
 
 # add sources for libwbxml for activesync
-RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian $(lsb_release -sc) sogo-v$(MAJ)" > /etc/apt/sources.list.d/sogo.list
+RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian $(lsb_release -sc) sogo-v$(cat /tmp/sogo_maj_version)" > /etc/apt/sources.list.d/sogo.list
 
 # prepare & compile
 RUN echo "untar SOPE sources" \
-   && tar -xf /tmp/src/sope/sope.tar.gz && mkdir /tmp/SOPE && mv sope-SOPE-$(VERSION)/* /tmp/SOPE/. \
+   && tar -xf /tmp/src/sope/sope.tar.gz && mkdir /tmp/SOPE && mv sope-SOPE-$(cat /tmp/sogo_version)/* /tmp/SOPE/. \
    && echo "untar SOGO sources"  \
-   && tar -xf /tmp/src/SOGo/SOGo.tar.gz && mkdir /tmp/SOGo && mv sogo-SOGo-$(VERSION)/* /tmp/SOGo/. \ 
+   && tar -xf /tmp/src/SOGo/SOGo.tar.gz && mkdir /tmp/SOGo && mv sogo-SOGo-$(cat /tmp/sogo_version)/* /tmp/SOGo/. \ 
    && echo "install required packages" \
    && apt-get update --allow-unauthenticated \
    && apt-get install --allow-unauthenticated -qy --no-install-recommends \
