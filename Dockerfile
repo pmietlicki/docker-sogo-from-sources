@@ -28,6 +28,7 @@ RUN echo "untar SOPE sources" \
       libxml2-dev \
       libssl-dev \
       libldap2-dev \
+      libzip-dev \
       postgresql-server-dev-all \
       libmemcached-dev \
       libcurl4-openssl-dev \
@@ -42,7 +43,7 @@ RUN echo "untar SOPE sources" \
    && make  \
    && make install \
    && echo "register sogo library" \
-   && echo "/usr/lib/sogo" > /etc/ld.so.conf.d/sogo.conf  \
+   && echo "/usr/local/lib/sogo" > /etc/ld.so.conf.d/sogo.conf  \
    && ldconfig \
    && echo "create user sogo" \
    && groupadd --system sogo && useradd --system --gid sogo sogo \
