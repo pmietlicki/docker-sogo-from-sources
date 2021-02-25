@@ -47,9 +47,7 @@ RUN echo "untar SOPE sources" \
       libmemcached-dev \
       libcurl4-openssl-dev \
       libwbxml2-0 \
-      libwbxml2-0-dbg \
       libwbxml2-dev \
-      libwbxml2-utils \
       tzdata \
    && echo "compiling sope & sogo" \
    && cd /tmp/SOPE  \
