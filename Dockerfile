@@ -26,12 +26,20 @@ RUN echo "untar SOPE sources" \
       libz-dev \
       zlib1g-dev \
       libpq-dev \
+      libmysqlclient-dev \
       libcurl4-openssl-dev \
       libsodium-dev \
       libxml2-dev \
       libssl-dev \
       libldap2-dev \
       libzip-dev \
+      mysql-client \
+      postgresql-client \
+      tmpreaper \
+      python3-m2crypto \
+      python3-simplejson \
+      python3-vobject \
+      python3-dateutil \
       postgresql-server-dev-all \
       libmemcached-dev \
       libcurl4-openssl-dev \
