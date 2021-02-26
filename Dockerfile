@@ -16,10 +16,10 @@ RUN echo "deb [trusted=yes] http://www.axis.cz/linux/debian $(lsb_release -sc) s
 # download, prepare & compile
 RUN echo "download SOPE sources" \
    && mkdir -p /tmp/src/sope \
-   && curl -LJO https://github.com/inverse-inc/sope/archive/SOPE-$(cat /tmp/sogo_version).tar.gz -o /tmp/src/sope/sope.tar.gz -s \
+   && curl -LJ https://github.com/inverse-inc/sope/archive/SOPE-$(cat /tmp/sogo_version).tar.gz -o /tmp/src/sope/sope.tar.gz -s \
    && echo "download SOGo sources" \
    && mkdir -p /tmp/src/SOGo \
-   && curl -LJO https://github.com/inverse-inc/sogo/archive/SOGo-$(cat /tmp/sogo_version).tar.gz -o /tmp/src/SOGo/SOGo.tar.gz -sf \
+   && curl -LJ https://github.com/inverse-inc/sogo/archive/SOGo-$(cat /tmp/sogo_version).tar.gz -o /tmp/src/SOGo/SOGo.tar.gz -sf \
    && echo "untar SOPE sources" \
    && tar -xf /tmp/src/sope/sope.tar.gz && mkdir /tmp/SOPE && mv sope-SOPE-$(cat /tmp/sogo_version)/* /tmp/SOPE/. \
    && echo "untar SOGO sources"  \
