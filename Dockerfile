@@ -28,7 +28,7 @@ RUN echo "download SOPE sources" \
    && tar -xf /tmp/src/SOGo/SOGo.tar.gz && mkdir /tmp/SOGo && mv sogo-SOGo-$(cat /tmp/sogo_version)/* /tmp/SOGo/. \ 
    && echo "install required packages" \
    && apt-get update --allow-unauthenticated \
-   && apt-get install --allow-unauthenticated -qy \
+   && apt-get upgrade --allow-unauthenticated -qy \
    && apt-get install --allow-unauthenticated -qy --no-install-recommends \
       gnustep-make \
       gnustep-base-runtime \
