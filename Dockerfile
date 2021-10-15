@@ -32,6 +32,7 @@ RUN echo "download SOPE sources" \
       gnustep-make \
       gnustep-base-runtime \
       libgnustep-base-dev \
+      pkg-config \
       make \
       gobjc \
       libz-dev \
