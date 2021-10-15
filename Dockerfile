@@ -59,6 +59,8 @@ RUN echo "download SOPE sources" \
       libwbxml2-0 \
       libwbxml2-dev \
       tzdata \
+      libytnef0 \
+      libytnef0-dev \
    && echo "compiling sope & sogo" \
    && cd /tmp/SOPE  \
    && ./configure --with-gnustep --enable-debug --disable-strip  \
