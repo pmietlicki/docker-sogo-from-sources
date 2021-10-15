@@ -2,7 +2,7 @@ FROM phusion/baseimage:master
 
 RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-) > /tmp/sogo_version
 
-ENV SOGO_VERSION=5.1.1
+ENV SOGO_VERSION=5.2.0
 RUN echo $SOGO_VERSION > /tmp/sogo_version
 
 RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6- | head -c 1) > /tmp/sogo_maj_version
