@@ -88,7 +88,7 @@ RUN echo "download SOPE sources" \
 RUN apt-get update && \
     apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y --force-yes && \
     apt-get install -y --no-install-recommends gettext-base apache2 memcached libssl-dev && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/build/* /var/tmp/*
 
 # Activate required Apache modules
 RUN a2enmod headers proxy proxy_http rewrite ssl
