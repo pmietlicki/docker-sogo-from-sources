@@ -1,5 +1,7 @@
 FROM ubuntu
 
+RUN apt-get install -y curl
+
 RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-) > /tmp/sogo_version
 
 #ENV SOGO_VERSION=5.2.0
