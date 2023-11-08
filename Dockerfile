@@ -1,6 +1,20 @@
 FROM ubuntu
 
-RUN apt-get update && apt-get install -y curl
+# Set environment variables for versions
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    lsb-release \
+    gettext-base \
+    apache2 \
+    memcached \
+    libssl-dev \
+    --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-) > /tmp/sogo_version
 
