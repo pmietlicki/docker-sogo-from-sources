@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM ubuntu
 
 RUN echo $(curl --silent "https://api.github.com/repos/inverse-inc/sogo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 6-) > /tmp/sogo_version
 
