@@ -22,8 +22,8 @@ RUN apt-get install -y curl gnupg lsb-release gettext-base --no-install-recommen
     curl -L "https://codeload.github.com/Alinto/sogo/tar.gz/refs/tags/SOGo-$(cat /tmp/sogo_version)" -o SOGo.tar.gz && \
     tar -xf sope.tar.gz && \
     tar -xf SOGo.tar.gz && \
-    mv sope-SOPE-$SOGO_VERSION /tmp/SOPE && \
-    mv sogo-SOGo-$SOGO_VERSION /tmp/SOGo && \
+    mv sope-SOPE-$(cat /tmp/sogo_version) /tmp/SOPE && \
+    mv sogo-SOGo-$(cat /tmp/sogo_version) /tmp/SOGo && \
     cd /tmp/SOPE && ./configure --with-gnustep --enable-debug --disable-strip && make && make install && \
     cd /tmp/SOGo && ./configure --enable-debug --disable-strip && make && make install
 
@@ -41,7 +41,10 @@ RUN apt-get update && apt-get install -y apache2 memcached libssl-dev gettext-ba
     a2enmod headers proxy proxy_http rewrite ssl && \
     groupadd --system sogo && \
     useradd --system --gid sogo sogo && \
-    install -o sogo -g sogo -m 755 -d /var/run/sogo /var/spool/sogo /var/log/sogo && \
+    install -o sogo -g sogo -m 755 -d /var/run/sogo /var/spool/sogo /var/log/sogo
+
+# Check the SOGo installation directory and create if necessary
+RUN mkdir -p /usr/lib/GNUstep/ && \
     ln -s /usr/local/lib/GNUstep/SOGo /usr/lib/GNUstep/SOGo && \
     ln -s /usr/local/sbin/sogo-tool /usr/sbin/sogo-tool && \
     ln -s /usr/local/sbin/sogo-ealarms-notify /usr/sbin/sogo-ealarms-notify && \
