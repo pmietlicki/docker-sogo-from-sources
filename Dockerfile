@@ -66,5 +66,11 @@ RUN chmod +x /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcac
 VOLUME /srv
 EXPOSE 80 443 8800
 
-# Baseimage init process
-ENTRYPOINT ["/sbin/my_init"]
+# Copier le script de démarrage dans le conteneur
+COPY start_services.sh /start_services.sh
+
+# Rendre le script exécutable
+RUN chmod +x /start_services.sh
+
+# Définir le script comme point d'entrée
+ENTRYPOINT ["/start_services.sh"]
