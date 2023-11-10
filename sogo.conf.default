@@ -1,14 +1,14 @@
 {
-    SOGoProfileURL = "mysql://sogo:sogoPassword@localhost:3306/sogo/sogo_user_profile";
-    OCSFolderInfoURL = "mysql://sogo:sogoPassword@localhost:3306/sogo/sogo_folder_info";
-    OCSSessionsFolderURL = "mysql://sogo:sogoPassword@localhost:3306/sogo/sogo_sessions_folder";
-    OCSEMailAlarmsFolderURL = "mysql://sogo:sogoPassword@localhost:3306/sogo/sogo_alarms_folder";
+    SOGoProfileURL = "mysql://sogo:sogoPassword@host.docker.internal:3306/sogo/sogo_user_profile";
+    OCSFolderInfoURL = "mysql://sogo:sogoPassword@host.docker.internal:3306/sogo/sogo_folder_info";
+    OCSSessionsFolderURL = "mysql://sogo:sogoPassword@host.docker.internal:3306/sogo/sogo_sessions_folder";
+    OCSEMailAlarmsFolderURL = "mysql://sogo:sogoPassword@host.docker.internal:3306/sogo/sogo_alarms_folder";
 
     SOGoUserSources = (
         {
             type = sql;
             id = directory;
-            viewURL = "mysql://sogo:sogoPassword@localhost:3306/sogo/sogo_users";
+            viewURL = "mysql://sogo:sogoPassword@host.docker.internal:3306/sogo/sogo_users";
             canAuthenticate = YES;
             isAddressBook = YES;
             displayName = "Shared Addresses";
