@@ -1,8 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 
 mkdir -p /var/run/sogo
 touch /var/run/sogo/sogo.pid
 chown -R sogo:sogo /var/run/sogo
+
+# Vérifier si une configuration personnalisée existe
+CONFIG_PATH="/srv/etc/sogo.conf"
+DEFAULT_CONFIG="/etc/sogo/sogo.conf.default"
+
+if [ ! -f "$CONFIG_PATH" ]; then
+    echo "Configuration SOGo personnalisée non trouvée. Création d'une configuration par défaut."
+    cp "$DEFAULT_CONFIG" "$CONFIG_PATH"
+else
+    echo "Utilisation de la configuration SOGo personnalisée."
+fi
+
+cp "$CONFIG_PATH" /etc/sogo/sogo.conf
 
 #Solve libssl bug for Mail View
 if [[ -z "${LD_PRELOAD}" ]]; then
@@ -38,4 +51,4 @@ printf "\n" >> /etc/cron.d/sogo
 . /usr/share/GNUstep/Makefiles/GNUstep.sh
 
 # Run SOGo in foreground
-LD_LIBRARY_PATH=/usr/local/lib/sogo:/usr/local/lib:$LD_LIBRARY_PATH LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
+su -s /bin/sh -c '/usr/local/sbin/sogod' sogo

@@ -1,0 +1,56 @@
+{
+    SOGoProfileURL = "mysql://sogo:sogoPassword@10.231.3.238:3306/sogo/sogo_user_profile";
+    OCSFolderInfoURL = "mysql://sogo:sogoPassword@10.231.3.238:3306/sogo/sogo_folder_info";
+    OCSSessionsFolderURL = "mysql://sogo:sogoPassword@10.231.3.238:3306/sogo/sogo_sessions_folder";
+    OCSEMailAlarmsFolderURL = "mysql://sogo:sogoPassword@10.231.3.238:3306/sogo/sogo_alarms_folder";
+
+    SOGoUserSources = (
+        {
+            type = sql;
+            id = directory;
+            viewURL = "mysql://sogo:sogoPassword@10.231.3.238:3306/sogo/sogo_users";
+            canAuthenticate = YES;
+            isAddressBook = YES;
+            displayName = "Shared Addresses";
+            MailFieldNames = ("aliases");
+            listRequiresDot = NO;
+            userPasswordAlgorithm = md5;
+        }
+    );
+
+    SOGoMailDomain = "example.com";
+    SOGoMailingMechanism = smtp;
+    SOGoSMTPServer = "127.0.0.1";
+    SOGoDraftsFolderName = Drafts;
+    SOGoSentFolderName = Sent;
+    SOGoTrashFolderName = Trash;
+    SOGoIMAPServer = "127.0.0.1";
+    SOGoSieveServer = sieve://127.0.0.1:4190;
+    SOGoSieveScriptsEnabled = YES;
+    SOGoVacationEnabled = YES;
+    SOGoForwardEnabled = YES;
+    SOGoSieveFolderEncoding = UTF-8;
+    SOGoPasswordChangeEnabled = NO;
+    
+    // Paramètres de localisation et de fuseau horaire
+    SOGoLanguage = French;
+    SOGoTimeZone = Europe/Paris;
+
+    // Autres paramètres
+    SOGoPageTitle = "My SOGo Server";
+    SOGoLoginTitle = "Welcome to SOGo";
+    SOGoMailSpoolPath = "/var/spool/sogo";
+    SOGoAppointmentSendEMailNotifications = YES;
+    SOGoEnableEMailAlarms = YES;
+
+    // Paramètres de journalisation
+    SOGoDebugRequests = YES;
+    SOGoDebugBaseURL = YES;
+    SOGoVacationEnabled = YES;
+    SOGoRefreshViewCheck = every_5_minutes;
+    SOGoRefreshViewOnForeground = YES;
+    SOGoMailReplyPlacement = below;
+    SOGoMailSignaturePlacement = below;
+    SOGoMailMessageForwarding = inline;
+    SOGoLoggingLevel = debug;
+}
