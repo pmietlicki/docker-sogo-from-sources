@@ -63,8 +63,5 @@ RUN dos2unix /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcac
 VOLUME /srv
 EXPOSE 80 443 8800
 
-# To display logs
-RUN ln -sf /dev/stdout /var/log/sogo/sogo.log
-
 # Set entry point
 ENTRYPOINT ["/usr/local/bin/start_services.sh"]
