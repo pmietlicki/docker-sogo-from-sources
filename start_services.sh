@@ -12,5 +12,8 @@
 # Démarrer Memcached
 /etc/service/memcached/run &
 
+# Suivre les logs de SOGo et les rediriger vers stdout en arrière-plan
+tail -f /var/log/sogo/sogo.log &
+
 # Attendre que tous les processus en arrière-plan se terminent
 wait
