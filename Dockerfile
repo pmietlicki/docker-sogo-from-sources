@@ -54,10 +54,10 @@ COPY sogo.conf.default /etc/sogo/sogo.conf.default
 # Create supervisord configuration file
 COPY supervisord.conf /etc/supervisord.conf
 
-RUN chmod +x /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run /etc/my_init.d/memcached-control.sh /usr/local/bin/start_services.sh
+RUN chmod +x /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run
 
 # Convert scripts to Unix format (avoid CRLF issues)
-RUN dos2unix /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run /etc/my_init.d/memcached-control.sh /usr/local/bin/start_services.sh /etc/sogo/sogo.conf.default
+RUN dos2unix /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run /etc/sogo/sogo.conf.default
 
 # Set up volume and expose ports
 VOLUME /srv
