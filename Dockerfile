@@ -65,7 +65,7 @@ RUN dos2unix /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcac
 
 # Set up volume and expose ports
 VOLUME /srv
-EXPOSE 80 443 8800 20000
+EXPOSE 80 443 8800
 
 # Set entry point
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
