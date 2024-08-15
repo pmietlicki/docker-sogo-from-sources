@@ -51,7 +51,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install libmemcached and other runtime libraries
 RUN apt-get update && apt-get install -y \
-    libmemcached11 --no-install-recommends && \
+    libmemcached11 libzip4 libytnef0 libsodium23 --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the compiled binaries and libraries from the build stage
