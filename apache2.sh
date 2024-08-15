@@ -15,4 +15,4 @@ else
 fi
 
 # Run apache in foreground
-exec /usr/sbin/apache2ctl -D FOREGROUND 2>&1 | tee /var/log/apache2/apache2.log
+exec /usr/sbin/apache2ctl -D FOREGROUND
