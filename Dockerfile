@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
 
 # Install dependencies for the build process
-RUN apt-get update && apt-get install -y curl jq gosu apache2 dos2unix memcached libssl-dev gnustep-base-runtime libgnustep-base-dev gettext-base lsb-release gnupg supervisor --no-install-recommends
+RUN apt-get update && apt-get install -y curl jq gosu procps apache2 dos2unix memcached libssl-dev gnustep-base-runtime libgnustep-base-dev gettext-base lsb-release gnupg supervisor --no-install-recommends
 
 # Retrieve the latest SOGo version and write it to a file
 RUN curl --silent "https://api.github.com/repos/Alinto/sogo/releases/latest" | \
@@ -65,7 +65,7 @@ RUN dos2unix /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcac
 
 # Set up volume and expose ports
 VOLUME /srv
-EXPOSE 80 443 8800
+EXPOSE 80 443 8800 20000
 
 # Set entry point
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
