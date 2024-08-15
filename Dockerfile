@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
 
 # Install dependencies for the build process
-RUN apt-get update && apt-get install -y curl jq apache2 dos2unix memcached libssl-dev gnustep-base-runtime libgnustep-base-dev gettext-base lsb-release gnupg supervisor --no-install-recommends
+RUN apt-get update && apt-get install -y curl jq gosu apache2 dos2unix memcached libssl-dev gnustep-base-runtime libgnustep-base-dev gettext-base lsb-release gnupg supervisor --no-install-recommends
 
 # Retrieve the latest SOGo version and write it to a file
 RUN curl --silent "https://api.github.com/repos/Alinto/sogo/releases/latest" | \
