@@ -43,7 +43,13 @@ chown -R sogo /srv/lib/sogo
 cp /etc/cron.d/sogo /srv/etc/cron.orig
 
 # Load crontab
-cp /srv/etc/cron /etc/cron.d/sogo
+if [ -f "/srv/etc/cron" ]; then
+    cp /srv/etc/cron /etc/cron.d/sogo
+    printf "\n" >> /etc/cron.d/sogo
+else
+    echo "No custom cron file found at /srv/etc/cron. Skipping cron setup."
+fi
+
 printf "\n" >> /etc/cron.d/sogo
 
 # load env
