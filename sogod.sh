@@ -4,7 +4,7 @@ mkdir -p /var/run/sogo
 touch /var/run/sogo/sogo.pid
 chown -R sogo:sogo /var/run/sogo
 
-# Vérifier si une configuration personnalisée existe
+# Check if a personalized configuration exists
 CONFIG_PATH="/srv/etc/sogo.conf"
 DEFAULT_CONFIG="/etc/sogo/sogo.conf.default"
 
@@ -29,8 +29,7 @@ else
 fi
 
 # Copy distribution config files to /srv as example
-mkdir -p /srv/etc
-mkdir -p /etc/sogo
+mkdir -p /srv/etc /etc/sogo
 cp /etc/sogo/sogo.conf /srv/etc/sogo.conf.orig
 
 # Copy back administrator's configuration
@@ -51,4 +50,4 @@ printf "\n" >> /etc/cron.d/sogo
 . /usr/share/GNUstep/Makefiles/GNUstep.sh
 
 # Run SOGo in foreground
-su -s /bin/sh -c '/usr/local/sbin/sogod' sogo
+exec su -s /bin/sh -c '/usr/local/sbin/sogod' sogo

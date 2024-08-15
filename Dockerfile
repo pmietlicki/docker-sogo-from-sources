@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
 
 # Install dependencies for the build process
-RUN apt-get update && apt-get install -y curl jq apache2 dos2unix memcached libssl-dev gnustep-base-runtime libgnustep-base-dev gettext-base lsb-release gnupg --no-install-recommends
+RUN apt-get update && apt-get install -y curl jq apache2 dos2unix memcached libssl-dev gnustep-base-runtime libgnustep-base-dev gettext-base lsb-release gnupg supervisor --no-install-recommends
 
 # Retrieve the latest SOGo version and write it to a file
 RUN curl --silent "https://api.github.com/repos/Alinto/sogo/releases/latest" | \
@@ -49,10 +49,10 @@ ENV USEWATCHDOG=YES
 COPY sogod.sh /etc/service/sogod/run
 COPY apache2.sh /etc/service/apache2/run
 COPY memcached.sh /etc/service/memcached/run
-COPY memcached-control.sh /etc/my_init.d/
-COPY start_services.sh /usr/local/bin/
-
 COPY sogo.conf.default /etc/sogo/sogo.conf.default
+
+# Create supervisord configuration file
+COPY supervisord.conf /etc/supervisord.conf
 
 RUN chmod +x /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run /etc/my_init.d/memcached-control.sh /usr/local/bin/start_services.sh
 
@@ -64,4 +64,4 @@ VOLUME /srv
 EXPOSE 80 443 8800
 
 # Set entry point
-ENTRYPOINT ["/usr/local/bin/start_services.sh"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
