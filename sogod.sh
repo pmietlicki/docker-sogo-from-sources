@@ -56,4 +56,9 @@ printf "\n" >> /etc/cron.d/sogo
 . /usr/share/GNUstep/Makefiles/GNUstep.sh
 
 # Run SOGo in foreground
-exec gosu sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
+if pgrep -x "sogod" > /dev/null
+then
+    echo "SOGo is already running"
+else
+    exec gosu sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
+fi
