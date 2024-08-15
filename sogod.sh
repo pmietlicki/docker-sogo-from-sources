@@ -60,5 +60,5 @@ if pgrep -x "sogod" > /dev/null
 then
     echo "SOGo is already running"
 else
-    exec gosu sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
+    exec gosu sogo /usr/local/sbin/sogod
 fi
