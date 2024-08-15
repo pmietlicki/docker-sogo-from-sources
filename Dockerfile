@@ -45,6 +45,8 @@ RUN apt-get clean \
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libssl.so
 ENV USEWATCHDOG=YES
 
+RUN mkdir -p /etc/service/apache2 /etc/service/sogod /etc/service/memcached
+
 # Copy scripts and make them executable
 COPY sogod.sh /etc/service/sogod/run
 COPY apache2.sh /etc/service/apache2/run
