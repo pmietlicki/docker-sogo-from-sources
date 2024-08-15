@@ -49,6 +49,11 @@ RUN apt-get update && apt-get install -y \
     libssl-dev gnustep-base-runtime gettext-base --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install libmemcached and other runtime libraries
+RUN apt-get update && apt-get install -y \
+    libmemcached11 --no-install-recommends && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Copy the compiled binaries and libraries from the build stage
 COPY --from=build /usr/local/bin /usr/local/bin
 COPY --from=build /usr/local/sbin /usr/local/sbin
