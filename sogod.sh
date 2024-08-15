@@ -50,4 +50,4 @@ printf "\n" >> /etc/cron.d/sogo
 . /usr/share/GNUstep/Makefiles/GNUstep.sh
 
 # Run SOGo in foreground
-exec su -s /bin/sh -c '/usr/local/sbin/sogod' sogo
+exec gosu sogo /usr/local/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid | tee /var/log/sogo/sogo.log

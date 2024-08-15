@@ -15,4 +15,4 @@ else
 fi
 
 # Run apache in foreground
-APACHE_ARGUMENTS="-DNO_DETACH" exec /usr/sbin/apache2ctl start
+exec /usr/sbin/apache2ctl -D FOREGROUND | tee /var/log/apache2/apache2.log

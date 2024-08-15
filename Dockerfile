@@ -56,6 +56,8 @@ COPY supervisord.conf /etc/supervisord.conf
 
 RUN chmod +x /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run
 
+RUN mkdir -p /var/log/apache2 /var/log/sogo /var/log/memcached
+
 # Convert scripts to Unix format (avoid CRLF issues)
 RUN dos2unix /etc/service/sogod/run /etc/service/apache2/run /etc/service/memcached/run /etc/sogo/sogo.conf.default
 
