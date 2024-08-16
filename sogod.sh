@@ -16,6 +16,31 @@ if [ ! -f "$CONFIG_PATH" ]; then
     # Copy the default config to the working config path
     cp "$DEFAULT_CONFIG" "$CONFIG_PATH"
 
+    # Determine which database to use: MySQL or PostgreSQL
+    if [ -n "$MYSQL_HOST" ] && [ -n "$POSTGRESQL_HOST" ]; then
+        echo "Error: Both MySQL and PostgreSQL configurations are defined. Please choose one."
+        exit 1
+    elif [ -n "$MYSQL_HOST" ]; then
+        db_type="mysql"
+        db_host="${MYSQL_HOST}"
+        db_port="${MYSQL_PORT:-3306}"
+        db_user="${MYSQL_USER:-sogo}"
+        db_password="${MYSQL_PASSWORD:-sogoPassword}"
+        db_name="${MYSQL_DATABASE:-sogo}"
+        db_url="mysql://${db_user}:${db_password}@${db_host}:${db_port}/${db_name}"
+    elif [ -n "$POSTGRESQL_HOST" ]; then
+        db_type="postgresql"
+        db_host="${POSTGRESQL_HOST}"
+        db_port="${POSTGRESQL_PORT:-5432}"
+        db_user="${POSTGRESQL_USER:-sogo}"
+        db_password="${POSTGRESQL_PASSWORD:-sogoPassword}"
+        db_name="${POSTGRESQL_DATABASE:-sogo}"
+        db_url="postgresql://${db_user}:${db_password}@${db_host}:${db_port}/${db_name}"
+    else
+        echo "Error: Neither MySQL nor PostgreSQL configuration is defined. Please set the database parameters."
+        exit 1
+    fi
+
     # Apply environment variables if they are defined
     awk -v imap="${MAIL_IMAP_SERVER:-127.0.0.1}" \
         -v smtp="${MAIL_SMTP_SERVER:-127.0.0.1}" \
@@ -45,14 +70,7 @@ if [ ! -f "$CONFIG_PATH" ]; then
         -v signature_placement="${SOGO_MAIL_SIGNATURE_PLACEMENT:-below}" \
         -v forwarding_method="${SOGO_MAIL_MESSAGE_FORWARDING:-inline}" \
         -v logging_level="${SOGO_LOGGING_LEVEL:-debug}" \
-        -v mysql_host="${MYSQL_HOST:-host.docker.internal}" \
-        -v mysql_user="${MYSQL_USER:-sogo}" \
-        -v mysql_password="${MYSQL_PASSWORD:-sogoPassword}" \
-        -v mysql_db="${MYSQL_DATABASE:-sogo}" \
-        -v pg_host="${POSTGRESQL_HOST:-host.docker.internal}" \
-        -v pg_user="${POSTGRESQL_USER:-sogo}" \
-        -v pg_password="${POSTGRESQL_PASSWORD:-sogoPassword}" \
-        -v pg_db="${POSTGRESQL_DATABASE:-sogo}" \
+        -v db_url="${db_url}" \
         '{
             gsub(/SOGoIMAPServer = "127.0.0.1";/, "SOGoIMAPServer = \"" imap "\";");
             gsub(/SOGoSMTPServer = "127.0.0.1";/, "SOGoSMTPServer = \"" smtp "\";");
@@ -83,11 +101,8 @@ if [ ! -f "$CONFIG_PATH" ]; then
             gsub(/SOGoMailMessageForwarding = inline;/, "SOGoMailMessageForwarding = " forwarding_method ";");
             gsub(/SOGoLoggingLevel = debug;/, "SOGoLoggingLevel = \"" logging_level "\";");
 
-            # Replace MySQL URLs
-            gsub(/mysql:\/\/sogo:sogoPassword@host.docker.internal:3306\/sogo/, "mysql://" mysql_user ":" mysql_password "@" mysql_host ":3306/" mysql_db);
-
-            # Replace PostgreSQL URLs
-            gsub(/postgresql:\/\/sogo:sogoPassword@host.docker.internal:5432\/sogo/, "postgresql://" pg_user ":" pg_password "@" pg_host ":5432/" pg_db);
+            # Replace MySQL or PostgreSQL URLs
+            gsub(/mysql:\/\/sogo:sogoPassword@host.docker.internal:3306\/sogo/, db_url);
 
             print;
         }' "$CONFIG_PATH" > "$CONFIG_PATH.tmp" && mv "$CONFIG_PATH.tmp" "$CONFIG_PATH"
